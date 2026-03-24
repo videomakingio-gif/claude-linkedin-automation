@@ -4,6 +4,9 @@ A battle-tested skill for managing a professional LinkedIn profile autonomously 
 
 This isn't theory. Every rule in this skill was extracted from daily operation, daily audits, and weekly iterations on a live Italian LinkedIn profile in the AI/B2B niche.
 
+> **⚠️ Legal Disclaimer**
+> This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans resulting from the use of this system. This project is published for educational and research purposes.
+
 ## Results
 
 | Metric | Value |
@@ -177,7 +180,21 @@ The full experiment methodology, daily audit data, and findings are documented i
 
 ## License
 
-MIT License. Use it, modify it, build on it. If you do something cool with it, let me know.
+**MIT License**
+
+Copyright © 2026 Giovanni Liguori
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- **Legal disclaimer:** Use at your own risk. The authors assume no liability for account restrictions or bans.
+
+---
+
+**Author:** Giovanni Liguori
+**Year:** 2026
+**Repository:** [github.com/giovanniliguori/claude-linkedin-automation](https://github.com/giovanniliguori/claude-linkedin-automation)
+**License:** MIT
 
 ## Contributing
 

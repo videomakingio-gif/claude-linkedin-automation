@@ -1,7 +1,10 @@
 ---
-name: linkedin-automation
+name: LinkedIn Automation
 description: |
   Automate a professional LinkedIn presence end-to-end using Claude: daily posting with pillar calendar, engagement with anti-detection rules, reporting, and growth tracking. Use when the user wants to automate LinkedIn, manage a profile with AI, create a content strategy, or set up engagement automation. Triggers on: "LinkedIn automation", "automated LinkedIn", "LinkedIn bot", "LinkedIn scheduling", "LinkedIn AI management", "how do I automate my LinkedIn", "can Claude manage my LinkedIn", "LinkedIn content calendar", "LinkedIn engagement strategy", "build a LinkedIn presence", or any request involving systematic LinkedIn content creation and audience growth. Covers: identity/TOV, content planning, publishing, engagement rules, anti-pattern detection, and weekly reporting.
+version: 2.0.0
+author: Giovanni Liguori (github.com/videomakingio-gif)
+license: MIT
 ---
 
 # LinkedIn Automation Skill
@@ -93,6 +96,33 @@ Save as the main project instructions file (e.g., `CLAUDE.md` in the LinkedIn wo
 ```
 
 Ask the user to review this document carefully. Every post, comment, and DM will be filtered through these rules.
+
+### Identity Questionnaire (complete before proceeding)
+
+Answer these 15 questions to define your LinkedIn identity:
+
+**Who you are:**
+1. What's your professional title? (not your job title — how you want to be known)
+2. What did you do before this? (your origin story creates credibility)
+3. What's your unique stack/methodology? (the tools + approach nobody else combines)
+4. What's your one-line USP? (complete: "I help [who] do [what] by [how]")
+
+**Your voice:**
+5. Name 3 people whose communication style you admire. What specifically do you like?
+6. List 5 words you ALWAYS use and 5 words you NEVER use
+7. What's your signature closing line? (optional but powerful for brand recognition)
+8. How do you handle disagreement? (aggressive, diplomatic, Socratic, data-driven?)
+
+**Your audience:**
+9. Who is your primary audience? (job title, company size, pain point)
+10. Who is your secondary audience?
+11. What do they think at 2am that keeps them awake?
+12. What do they Google that leads them to people like you?
+
+**Your positioning:**
+13. Name your top 3 competitors. What do they do that you don't? What do you do that they don't?
+14. Complete: "Unlike [competitor], I [differentiator]"
+15. What result can you prove with data? (hours saved, revenue generated, cost reduced)
 
 ---
 
@@ -278,6 +308,29 @@ Define 4-5 profile categories, ranked by strategic value:
 
 **Always check the blacklist before engaging.**
 
+### Epistemic Verification Gate
+
+Before publishing any content (posts, comments, case studies, or DMs), run it through the 7-checkpoint epistemic verification gate documented in `references/epistemic-verification.md`. This is especially critical for engagement comments that reference specific cases, people, or events.
+
+**The 7 checkpoints (brief):**
+
+1. **Fact vs. Inference:** Is this verified fact or inferred pattern? Use appropriate language ("I've noticed" vs "I measured").
+2. **Uncertainty Markers:** Label your confidence level — verified, observed, inferred, or speculative.
+3. **Source Attribution:** If citing external data, name the source. Never write "I read somewhere..."
+4. **Temporal Coherence:** Is the timeframe clear? Don't present outdated info as current.
+5. **Case-Specific Claims Gate (CRITICAL):** If commenting on someone else's case/company/situation, verify facts or rephrase as questions. If unverifiable in 30 seconds, don't assert it.
+6. **Self-Assessment Bias Check:** For your own posts/case studies, separate measured results from estimates. Don't overclaim.
+7. **Absence-as-Proof Check:** Never treat "I didn't find evidence against X" as proof that "X is true."
+
+**Scoring after verification:**
+- **7/7 pass:** Publish immediately
+- **5-6/7 pass:** Fix failing checkpoints, then publish
+- **<5/7 pass:** Rewrite from scratch. Structural epistemic problems.
+
+**Why it matters:** One factually wrong comment on a high-traffic post can expose the automation and destroy weeks of trust-building. Checkpoint 5 (case-specific claims) is where most damage occurs — it's the most common failure mode in autonomous engagement.
+
+See `references/epistemic-verification.md` for the full framework, scoring examples, and FAQ. Adapted from [Clarity Gate](https://github.com/frmoretto/clarity-gate) by Francesco Marinoni Moretto.
+
 ---
 
 ## Step 6: Scheduled Tasks Implementation
@@ -445,6 +498,76 @@ This section documents real failures from production (Days 1-16) and how to hand
   - Status (success / failure)
   - If failure: reason (Chrome offline / DOM error / timeout)
 - Append to a weekly error log file for monitoring
+
+---
+
+## Step 9: Inbound DM Strategy
+
+DMs are the highest-intent signal on LinkedIn. Someone who writes to you has already decided you're worth their time.
+
+### Triage Rules
+
+- **Connection request + message:** Respond within 24h. Acknowledge their specific reason for connecting.
+- **Question about your content:** Respond with value. Answer the question, then ask one back.
+- **Service inquiry:** Don't sell immediately. Ask 2 qualifying questions first: "What's the specific problem?" and "What have you tried?"
+- **Generic "let's connect":** Accept silently. No response needed.
+- **Spam/pitch:** Ignore. Don't engage.
+
+### Response Framework
+
+1. **Acknowledge** — Reference something specific from their profile or message
+2. **Value** — Give them something useful (insight, resource, perspective)
+3. **Bridge** — Connect to a natural next step (not a sales pitch)
+
+### Anti-Pattern: The Premature Pitch
+
+Never respond to a DM with a link to your product/service in the first message. The conversion rate is near-zero and the reputation cost is high. Build 2-3 exchanges of genuine value before any mention of paid offerings.
+
+### Automation Note
+
+DM responses are the hardest to automate convincingly. The risk/reward ratio is unfavorable: a robotic DM response from a high-intent lead destroys more value than a missed response. Recommended approach: flag inbound DMs for human review, provide draft responses, but require manual approval before sending.
+
+---
+
+## Step 10: When Things Go Wrong (Real Failure Cases)
+
+### Failure 1: The Factual Error
+
+**What happened:** The engagement bot commented on a post about a specific industry case, asserting details it didn't actually know. The post author asked "what do you mean by that?" exposing the gap.
+
+**Root cause:** No fact-checking gate before commenting on posts with specific claims.
+
+**Fix:** Rule 7 in anti-detection playbook — mandatory context research before commenting on posts with specific facts. If unverifiable in 30 seconds, rephrase as opinion or question.
+
+**Recovery:** Delete the comment if possible. If the author already replied, own the mistake briefly: "You're right, I was reasoning from a general pattern, not this specific case. Thanks for the correction."
+
+### Failure 2: The Chrome MCP Crash
+
+**What happened:** The daily engagement task ran at 8:30, overlapping with the daily post task still running at 8:00. Chrome MCP can only handle one session at a time. Both tasks failed silently.
+
+**Root cause:** Insufficient gap between scheduled tasks sharing the same browser session.
+
+**Fix:** Moved engagement from 8:30 to 9:00. Minimum 30-minute gap between any two Chrome MCP tasks.
+
+**Recovery:** Re-run the failed task manually. Check the log for partial execution (half-posted content is worse than no content).
+
+### Failure 3: The Repetitive Pattern
+
+**What happened:** Over 5 days, all engagement comments followed the same structure: [observation] → [personal experience with Claude] → [generalizable insight]. A human reviewer flagged it as "obviously AI."
+
+**Root cause:** No structural variation enforcement in the engagement rules.
+
+**Fix:** Anti-pattern rules 1-4 in the playbook. Max 2/5 comments can mention Claude. At least 1 comment must be on a non-AI topic. Never repeat the same rhetorical structure on consecutive comments.
+
+**Recovery:** Pause engagement for 48 hours. When resuming, start with 3 days of pure observation (likes only) before commenting again.
+
+### General Recovery Protocol
+
+1. **Detect** — Check logs daily. Silent failures are the most dangerous.
+2. **Assess** — Is the damage visible? (wrong comment live) or invisible? (missed post)
+3. **Contain** — Remove visible errors immediately. For missed posts, don't double-post.
+4. **Fix** — Update the rule/gate that should have prevented this.
+5. **Document** — Add to this section. Every failure makes the system stronger.
 
 ---
 
