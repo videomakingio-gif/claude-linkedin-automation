@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/). Versioning: [S
 
 ---
 
+## [3.1.0] - 2026-03-25
+
+### Added
+
+- **Wizard Interaction Flow** (P1 fix): New section at top of SKILL.md with explicit turn-by-turn instructions for Claude on how to guide the user through each phase. Questions are grouped (4 turns for Phase 1), with "Wait for answers" gates between each group. Claude no longer has to improvise the conversation flow.
+
+- **Identity Document Generation Bridge** (P3 fix): After collecting all 15 answers, Claude now generates a complete CLAUDE.md using a structured template (Who, Archetype, TOV rules, Vocabulary, Audience, Positioning, Blacklist). The user reviews and approves before Phase 2 begins.
+
+- **Explicit Approval Gate in Phase 4** (P6 fix): Phase 4 now includes a HARD GATE instruction — Claude must present the task table, ask for changes, and wait for explicit "approved" before creating any tasks. Includes list of acceptable approval phrases.
+
+- `modules/linkedin.md` added to Reference Files table
+
+- **Update Flow** (new section): Users with existing setups can update to new skill versions without re-running the wizard. Claude detects current state, diffs changes, presents an update plan, and applies updates after approval. Includes version tracking in CLAUDE.md.
+
+- **Environment Compatibility** (new section): Documents differences between Claude Cowork and Claude Code. Cowork uses `create_scheduled_task` and built-in Chrome MCP; Code uses crontab/Cloud Scheduler and manual MCP config. Wizard (Phase 1-4) works identically in both. Includes recommended setup by use case.
+
+### Changed
+
+- Version bumped to 3.1.0
+- SKILL.md restructured: wizard flow section precedes all phase content
+
+---
+
 ## [3.0.0] - 2026-03-25
 
 ### Changed

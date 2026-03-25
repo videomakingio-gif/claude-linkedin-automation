@@ -47,6 +47,7 @@ Phase 2: STRATEGY       Pillar calendar, post format, humanization rules
 Phase 3: ENGAGEMENT     Commenting, liking, anti-detection rules, verification
 Phase 4: TASK PLAN      Review all tasks before creation (you approve first)
 Phase 5: CREATE & RUN   Deploy tasks, monitor, iterate
+UPDATE:  UPGRADE        Update existing setups to new skill versions without re-running the wizard
 ```
 
 ## Architecture

@@ -2,7 +2,7 @@
 name: Claude LinkedIn Automation
 description: |
   Automate a professional LinkedIn presence end-to-end using Claude: daily posting with pillar calendar, engagement with anti-detection rules, DM triage, reporting, and growth tracking. Use when the user wants to automate LinkedIn, manage a profile with AI, create a content strategy, or set up engagement automation. Triggers on: "automate my LinkedIn", "LinkedIn automation", "automated LinkedIn", "LinkedIn bot", "LinkedIn scheduling", "LinkedIn AI management", "LinkedIn content calendar", "LinkedIn engagement strategy", "build a LinkedIn presence", "can Claude manage my LinkedIn", "how do I automate my LinkedIn", or any request involving systematic LinkedIn content creation, audience growth, or profile management. Covers: identity/TOV setup, pillar calendar, post creation, engagement rules, anti-detection, scheduled task creation, and weekly reporting.
-version: 3.0.0
+version: 3.1.0
 author: Giovanni Liguori (github.com/videomakingio-gif)
 license: MIT
 ---
@@ -21,6 +21,151 @@ Read this when you need to:
 - Build engagement automation with empirically-validated anti-detection safeguards
 - Create scheduled tasks for LinkedIn posting, commenting, and reporting
 - Track growth metrics and optimize a LinkedIn presence
+
+---
+
+# WIZARD INTERACTION FLOW — Instructions for Claude
+
+**CRITICAL: Read this section first. It tells you HOW to guide the user through the 5 phases.**
+
+This is an interactive wizard, not a documentation dump. You are the guide. The user answers questions, you build the system. Never present all questions at once. Never skip the approval gate.
+
+## How to Run Each Phase
+
+### Phase 1: Identity & Voice (3-4 conversation turns)
+
+**Turn 1** — Ask questions 1-4 (who they are):
+> "Let's start by defining your identity. I need 4 things:
+> 1. What's your professional title? (Not job title — how you want to be known)
+> 2. What did you do before this? (Origin story)
+> 3. What's your unique stack/methodology?
+> 4. What's your one-line USP? ('I help [who] do [what] by [how]')"
+
+Wait for answers. Acknowledge, then proceed.
+
+**Turn 2** — Ask questions 5-8 (voice):
+> "Now let's lock down your voice:
+> 5. Name 3 people whose communication style you admire. What specifically?
+> 6. List 5 words you ALWAYS use and 5 you NEVER use
+> 7. What's your signature closing line? (Optional but powerful)
+> 8. How do you handle disagreement? (Aggressive, diplomatic, Socratic, data-driven?)"
+
+Wait for answers.
+
+**Turn 3** — Ask questions 9-12 (audience):
+> "Who are you talking to?
+> 9. Primary audience? (Job title, company size, pain point)
+> 10. Secondary audience?
+> 11. What keeps them awake at 2am?
+> 12. What do they Google that leads to people like you?"
+
+Wait for answers.
+
+**Turn 4** — Ask questions 13-15 (positioning):
+> "Last block — positioning:
+> 13. Top 3 competitors. What do they do that you don't? What do you do that they don't?
+> 14. Complete: 'Unlike [competitor], I [differentiator]'
+> 15. What result can you prove with data? (Hours saved, revenue generated, cost reduced)"
+
+Wait for answers. Then proceed to **Identity Document Generation** (see below).
+
+### Phase 1 → Phase 2 Bridge: Generate Identity Document
+
+After collecting all 15 answers, generate a complete identity document as a CLAUDE.md file. Use this template, populated with the user's answers:
+
+```markdown
+# Identity
+
+## Who
+[1 paragraph: name, role, background from Q1-2, USP from Q4]
+
+## Archetype
+[1 sentence archetype + explanation, derived from Q1-4]
+
+## Tone of Voice
+
+### Style rules
+[5-8 rules derived from Q5-8. Reference `references/tov-framework.md` for structure.]
+
+### Vocabulary whitelist
+[15-20 words from Q6 + niche-specific terms from Q3]
+
+### Vocabulary blacklist
+[10-15 words from Q6 + generic/hype words to avoid]
+
+### Signature closing phrase
+[From Q7, or "none" if user skipped]
+
+### Red flags (what to NEVER do)
+[3-5 anti-patterns derived from Q5, Q8, and user's positioning]
+
+## Target Audience
+
+### Primary
+[From Q9: who, what they need, their pain]
+
+### Secondary
+[From Q10]
+
+### What keeps them awake
+[From Q11]
+
+### What they search
+[From Q12]
+
+## Competitive Positioning
+[From Q13-15: vs 3 competitors, differentiators, provable results]
+
+## Blacklist Profiles
+| Profile | Reason | Date added |
+|---------|--------|------------|
+| (empty — user adds as needed) | | |
+```
+
+**Present the generated document to the user.** Say:
+> "Here's your identity document. This will drive every post, comment, and DM. Review it — I can adjust anything. When it looks right, say 'approved' and we'll move to content strategy."
+
+**Wait for explicit approval before proceeding to Phase 2.**
+
+Save the approved document as `CLAUDE.md` in the user's LinkedIn working directory.
+
+### Phase 2: Strategy & Content (1-2 turns)
+
+Present the pillar calendar from the Phase 2 section below. Ask:
+> "Here's the 7-day pillar calendar. Each day has a theme and emotional register. You can customize any day. Want to change anything, or does this work for your niche?"
+
+Wait for feedback. Adjust if needed. Then show the post format and humanization rules.
+
+Read `references/content-templates.md` for day-by-day templates and examples when writing the first weekly plan.
+
+### Phase 3: Engagement & Anti-Detection (1 turn)
+
+Present the engagement rules and anti-detection summary from Phase 3 below. Ask:
+> "These are the engagement rules, tested over 22 days with zero detection. The key limits: max 2/5 comments mention your tool, 1+ off-topic comment per session, fact-check before asserting. Any rules you want to adjust?"
+
+Wait for confirmation. Read `references/anti-detection-playbook.md` for full scoring rubric and NDI formula.
+
+### Phase 4: Task Plan — Review & Approve (APPROVAL GATE)
+
+Present the full task table from Phase 4 below. Then say:
+
+> "Here's the complete task plan — 10 tasks that will run your LinkedIn autonomously. **Review each one carefully:**
+> - Remove tasks you don't need
+> - Change schedules for your timezone
+> - Disable anything you want to control manually
+>
+> **Nothing gets created until you say 'approved'.** What changes do you want?"
+
+**THIS IS A HARD GATE.** Do NOT proceed to Phase 5 until the user explicitly says "approved", "looks good", "go ahead", "let's do it", or equivalent clear confirmation. If the user asks questions or requests changes, address them and ask again.
+
+### Phase 5: Create Tasks & Iterate
+
+Only after Phase 4 approval:
+1. Read `references/task-catalog.md` for the full prompt template of each approved task
+2. Replace all `{{PLACEHOLDER}}` values with user-specific paths and names from Phase 1
+3. Create each task using `create_scheduled_task`
+4. Confirm creation of each task to the user
+5. Provide first-week monitoring checklist
 
 ---
 
@@ -55,26 +200,6 @@ Spend 1-2 hours on this. The quality of your identity document determines the qu
 14. Complete: "Unlike [competitor], I [differentiator]"
 15. What result can you prove with data? (Hours saved, revenue generated, cost reduced)
 
-## Creating Your Identity Document
-
-Save as `CLAUDE.md` in your LinkedIn working directory:
-
-```markdown
-# Identity
-## Who (1 paragraph: name, role, background, USP)
-## Archetype (1 sentence + explanation)
-## Tone of Voice
-### Style rules (5-8 points)
-### Vocabulary whitelist (15-20 words)
-### Vocabulary blacklist (10-15 words)
-### Signature closing phrase (if any)
-### Red flags (what to NEVER do)
-## Competitive positioning (vs 3-5 competitors)
-## Blacklist profiles (check before every engagement)
-```
-
-For detailed TOV patterns, vocabulary systems, emotional registers, and worked examples, read `references/tov-framework.md`.
-
 ## Blacklist Management
 
 Maintain a list of profiles to never engage with. Check **BEFORE** every like, comment, reply, or DM.
@@ -86,6 +211,8 @@ Maintain a list of profiles to never engage with. Check **BEFORE** every like, c
 ```
 
 If a notification comes from a blacklisted profile: ignore silently. Log: `Skipped [name] — blacklist.`
+
+For detailed TOV patterns, vocabulary systems, emotional registers, and worked examples, read `references/tov-framework.md`.
 
 ---
 
@@ -235,7 +362,7 @@ Tasks are ordered to avoid Chrome MCP conflicts (only one browser session at a t
 7:00  news-scout (web search, no browser)
 8:00  daily-post (Chrome MCP — publishes + waits 20 min + auto-comment)
 9:00  daily-engagement (Chrome MCP — 25 min session)
-10:00 dm-prep (Chrome MCP — scans notifications)
+10:00 dm-prep (no Chrome MCP, 10 min)
 15:00 experiment-audit (reads logs, no browser)
 16:00 reply-to-replies (Chrome MCP — responds to threads)
 ```
@@ -296,6 +423,95 @@ Check daily:
 
 ---
 
+# UPDATING AN EXISTING SETUP
+
+If the user already has a working LinkedIn automation system and wants to update to a newer version of this skill, **do NOT re-run the full wizard**. Use this update flow instead.
+
+## When to Use the Update Flow
+
+Trigger on: "update the skill", "upgrade my LinkedIn automation", "I updated the skill repo", "sync my setup with the new version", "what changed?", or any request to apply new rules without starting from scratch.
+
+## Update Flow — Instructions for Claude
+
+### Step 1: Detect Current State
+
+Check what exists in the user's LinkedIn working directory:
+- Does `CLAUDE.md` exist? → Identity is already configured
+- Does `SETTIMANA-XX-POST.md` exist? → Content planning is active
+- Are scheduled tasks running? → Check with `list_scheduled_tasks`
+
+Report to user:
+> "I found your existing setup: [identity doc / X scheduled tasks / weekly plan for week Y]. Let me check what's new in the skill and what needs updating."
+
+### Step 2: Diff the Changes
+
+Compare the current skill version against what the user has:
+
+1. **SKILL.md version** — Read the version in frontmatter. Compare with user's last known version (check CHANGELOG.md).
+2. **Reference files** — Check if any reference files have been updated (anti-detection rules, TOV patterns, task prompts).
+3. **Task prompts** — Compare active task prompts (from `list_scheduled_tasks`) against latest templates in `references/task-catalog.md`.
+
+### Step 3: Present Update Plan
+
+Show the user a clear summary:
+
+> "Here's what changed between v[old] and v[new]:
+>
+> **New rules:** [list new anti-detection rules, engagement changes, etc.]
+> **Updated task prompts:** [list which tasks have new prompt templates]
+> **New features:** [list new tasks or capabilities]
+> **Breaking changes:** [anything that requires manual adjustment]
+>
+> I can apply these updates automatically. Want me to proceed?"
+
+### Step 4: Apply Updates (after approval)
+
+For each change:
+
+**Identity updates** (rare):
+- Read existing CLAUDE.md
+- Add new sections without overwriting existing content
+- Show diff to user before saving
+
+**Rule updates** (common):
+- Update anti-detection rules in CLAUDE.md
+- Update engagement parameters
+- No task restart needed — rules are read at runtime
+
+**Task prompt updates** (common):
+- For each changed task: call `update_scheduled_task` with the new prompt
+- Confirm each update to user
+- Log: "Updated [task-id] prompt from v[old] to v[new]"
+
+**New tasks** (occasional):
+- Present new task with description
+- Ask: "This is a new task. Want to add it?"
+- Only create after approval
+
+**Removed/deprecated tasks** (rare):
+- Flag to user: "Task [X] has been deprecated. Want to disable it?"
+- Never delete without explicit confirmation
+
+### Step 5: Verification
+
+After all updates:
+1. Run `list_scheduled_tasks` to confirm all tasks are active with correct schedules
+2. Verify CLAUDE.md has the new version marker
+3. Report summary: "Updated X tasks, added Y new rules, no breaking changes."
+
+## Version Tracking
+
+Add this line at the bottom of the user's CLAUDE.md after any update:
+
+```markdown
+---
+*Skill version: 3.1.0 | Last updated: YYYY-MM-DD*
+```
+
+This allows future update flows to detect the installed version.
+
+---
+
 # Reference Files
 
 | File | Read When |
@@ -305,6 +521,44 @@ Check daily:
 | `references/content-templates.md` | Creating weekly post plans, day-by-day templates (Phase 2) |
 | `references/epistemic-verification.md` | Before publishing any factual claim (Phase 3) |
 | `references/task-catalog.md` | Customizing task prompts (Phase 5) |
+| `modules/linkedin.md` | Detailed implementation reference for all LinkedIn tasks |
+
+---
+
+# ENVIRONMENT COMPATIBILITY
+
+This skill works in both **Claude Cowork** and **Claude Code**, with some differences in Phase 5.
+
+## What works everywhere (Cowork + Code)
+
+- **Phase 1-4 (Wizard)** — Pure conversation. Claude reads SKILL.md and guides the user through identity, strategy, engagement config, and plan review. No environment dependencies.
+- **Identity document generation** — Writes files to disk. Works in both.
+- **Update Flow** — Reads files, compares versions, applies changes. Works in both.
+- **Weekly plan creation** — Generates SETTIMANA-XX-POST.md. Works in both.
+
+## Cowork-specific features
+
+| Feature | Cowork tool | Code alternative |
+|---------|------------|-----------------|
+| Scheduled tasks | `create_scheduled_task` | `crontab -e` or Cloud Scheduler |
+| Browser automation | Chrome MCP (built-in) | Chrome MCP (manual MCP config) |
+| Task listing | `list_scheduled_tasks` | `crontab -l` or GCP console |
+| Task updates | `update_scheduled_task` | Edit crontab or redeploy |
+
+## Claude Code setup
+
+If using Claude Code instead of Cowork, Phase 5 changes:
+
+1. **Tasks become cron jobs or Cloud Functions.** Take the prompt templates from `references/task-catalog.md` and wrap them in your preferred scheduler (crontab, systemd timers, Cloud Scheduler + Cloud Run).
+2. **Chrome MCP requires manual config.** Add it to your `.claude/settings.json` as an MCP server. Same capabilities, different setup path.
+3. **File paths are local.** Replace `/mnt/linkedin/` with your actual project directory path.
+4. **Claude reads the same CLAUDE.md at runtime.** The identity document, anti-detection rules, and engagement config work identically — Claude Code reads them from your project root.
+
+## Recommended setup by use case
+
+- **Solo operator, wants zero config** → Cowork. `create_scheduled_task` handles everything.
+- **Developer, wants full control** → Code. Cron + Python scripts + GCP for production-grade scheduling.
+- **Hybrid** → Wizard in Cowork (easier conversation UX), then export task prompts to Code for production deployment.
 
 ---
 
