@@ -37,6 +37,8 @@ A **custom skill for Claude** that turns your AI assistant into a full-stack Lin
 
 Every rule is extracted from **22 days of real production data** on a live Italian profile. Not theory. Not best guesses. Empirical evidence from daily audits, scored engagement sessions, and 3 documented incidents that shaped the system.
 
+> **Works in any language.** The wizard was battle-tested in Italian, but the system is language-agnostic. Phase 1 captures your identity, voice, and vocabulary in whatever language you operate in — Claude generates all content in your language. The architecture (pillar calendar, anti-detection rules, NDI scoring, task scheduling) is universal.
+
 ### The 5-Phase Wizard
 
 Type `/linkedin` and Claude walks you through setup:
@@ -244,6 +246,23 @@ Full methodology: [`references/anti-detection-playbook.md`](references/anti-dete
 
 ---
 
+## Niche Adaptation
+
+The skill was built in the AI/B2B automation niche, but the architecture is **domain-agnostic**. The 7-day pillar calendar adapts to any niche — you keep the emotional structure, change the content domain:
+
+| Niche | Tuesday (Tool/Workflow) | Thursday (Case Study) | Friday (How-To) |
+|-------|------------------------|-----------------------|-----------------|
+| **AI / Automation** | Integration deep-dive | Client time saved | Claude skill tutorial |
+| **B2B SaaS** | Feature walkthrough | Customer ROI story | Integration guide |
+| **Coaching / Personal brand** | Framework breakdown | Client transformation | Routine walkthrough |
+| **Developer / OSS** | Architecture decision | Community contribution | Setup tutorial |
+| **Marketing / Agency** | Campaign teardown | Client results | Platform tutorial |
+| **Legal / Consulting** | Regulatory update | Case resolution | Process guide |
+
+The anti-detection rules, NDI scoring, epistemic verification gate, and task scheduling work identically across all niches. Only the content domain and vocabulary change — and the wizard captures those in Phase 1.
+
+---
+
 ## FAQ
 
 **How long does setup take?**
@@ -260,6 +279,12 @@ Target 8.0+/10 on the scoring rubric. Below 7.0 = adjust rules. See [`anti-detec
 
 **What if a task fails silently?**
 Every task writes a log. Check `report/` daily. The experiment-audit task (daily 15:00) catches most silent failures.
+
+**Does this only work in Italian?**
+No. The wizard and examples are in Italian (the production language), but the system works in any language. Phase 1 captures your voice, vocabulary, and audience in your language — Claude generates everything accordingly.
+
+**Does this only work for the AI/automation niche?**
+No. The architecture (pillar calendar, anti-detection, NDI, verification gate) is niche-agnostic. See [Niche Adaptation](#niche-adaptation) for examples.
 
 ---
 
