@@ -292,7 +292,29 @@ Present the full task table from Phase 4 below. Then ask:
 Only after Phase 4 approval:
 1. Read `references/task-catalog.md` for the full prompt template of each approved task
 2. Replace all `{{PLACEHOLDER}}` values with user-specific paths and names from Phase 1
-3. Create each task using `create_scheduled_task`
+3. **Detect the environment and create tasks accordingly:**
+
+**Environment detection logic (Claude must follow this):**
+
+```
+IF tool `create_scheduled_task` is available (Cowork):
+   → Use create_scheduled_task for each approved task
+   → Tasks are permanent and survive session restarts
+
+ELSE IF tool `CronCreate` is available (Claude Code):
+   → Use CronCreate for each approved task
+   → WARN the user: "These tasks run only while this Claude session
+     is open and auto-expire after 3 days. For permanent scheduling,
+     use crontab or a cloud scheduler."
+   → Offer to generate a crontab export:
+     "Want me to also generate a crontab file you can install
+     with `crontab linkedin.cron` for permanent scheduling?"
+
+ELSE (no scheduling tool available):
+   → Generate task prompts as files in the working directory
+   → Provide manual instructions for the user's preferred scheduler
+```
+
 4. Confirm creation of each task to the user
 5. Provide first-week monitoring checklist
 
@@ -567,7 +589,7 @@ Trigger on: "update the skill", "upgrade my LinkedIn automation", "I updated the
 Check what exists in the user's LinkedIn working directory:
 - Does `CLAUDE.md` exist? → Identity is already configured
 - Does `SETTIMANA-XX-POST.md` exist? → Content planning is active
-- Are scheduled tasks running? → Check with `list_scheduled_tasks`
+- Are scheduled tasks running? → Check with `list_scheduled_tasks` (Cowork) or `CronList` (Claude Code)
 
 Report to user:
 > "I found your existing setup: [identity doc / X scheduled tasks / weekly plan for week Y]. Let me check what's new in the skill and what needs updating."
@@ -608,7 +630,7 @@ For each change:
 - No task restart needed — rules are read at runtime
 
 **Task prompt updates** (common):
-- For each changed task: call `update_scheduled_task` with the new prompt
+- For each changed task: call `update_scheduled_task` (Cowork) or recreate with `CronDelete` + `CronCreate` (Claude Code)
 - Confirm each update to user
 - Log: "Updated [task-id] prompt from v[old] to v[new]"
 
@@ -624,7 +646,7 @@ For each change:
 ### Step 5: Verification
 
 After all updates:
-1. Run `list_scheduled_tasks` to confirm all tasks are active with correct schedules
+1. Run `list_scheduled_tasks` (Cowork) or `CronList` (Claude Code) to confirm all tasks are active
 2. Verify CLAUDE.md has the new version marker
 3. Report summary: "Updated X tasks, added Y new rules, no breaking changes."
 
@@ -665,23 +687,49 @@ This skill works in both **Claude Cowork** and **Claude Code**, with some differ
 - **Update Flow** — Reads files, compares versions, applies changes. Works in both.
 - **Weekly plan creation** — Generates SETTIMANA-XX-POST.md. Works in both.
 
-## Cowork-specific features
+## Task Scheduling by Environment
 
-| Feature | Cowork tool | Code alternative |
-|---------|------------|-----------------|
-| Scheduled tasks | `create_scheduled_task` | `crontab -e` or Cloud Scheduler |
-| Browser automation | Chrome MCP (built-in) | Chrome MCP (manual MCP config) |
-| Task listing | `list_scheduled_tasks` | `crontab -l` or GCP console |
-| Task updates | `update_scheduled_task` | Edit crontab or redeploy |
+| Feature | Cowork | Claude Code | Fallback |
+|---------|--------|-------------|----------|
+| Session tasks | `create_scheduled_task` | `CronCreate` | — |
+| Permanent tasks | `create_scheduled_task` | `crontab` / Cloud Scheduler | Manual |
+| Task listing | `list_scheduled_tasks` | `CronList` / `crontab -l` | — |
+| Task removal | `delete_scheduled_task` | `CronDelete` / `crontab -e` | — |
+| Browser automation | Chrome MCP (built-in) | Chrome MCP (manual MCP config) | — |
+| Task persistence | Permanent | Session-only (3 day max) | Permanent (crontab) |
 
-## Claude Code setup
+### Claude Code — CronCreate (session tasks)
 
-If using Claude Code instead of Cowork, Phase 5 changes:
+Claude Code has native `CronCreate` / `CronList` / `CronDelete` tools. These work identically to Cowork's scheduled tasks **within a session** — same cron syntax, same prompt templates. Use them for:
 
-1. **Tasks become cron jobs or Cloud Functions.** Take the prompt templates from `references/task-catalog.md` and wrap them in your preferred scheduler (crontab, systemd timers, Cloud Scheduler + Cloud Run).
-2. **Chrome MCP requires manual config.** Add it to your `.claude/settings.json` as an MCP server. Same capabilities, different setup path.
-3. **File paths are local.** Replace `/mnt/linkedin/` with your actual project directory path.
-4. **Claude reads the same CLAUDE.md at runtime.** The identity document, anti-detection rules, and engagement config work identically — Claude Code reads them from your project root.
+- **Testing** task prompts before deploying to production
+- **Working sessions** where Claude stays open (e.g., a workday)
+- **Quick automation** that doesn't need to survive a restart
+
+**Limitation:** Tasks auto-expire after 3 days and die when the session ends.
+
+### Claude Code — Permanent scheduling
+
+For production-grade permanent scheduling, export task prompts to your preferred scheduler:
+
+```bash
+# Option 1: crontab (simplest)
+# The skill can generate a linkedin.cron file, then:
+crontab linkedin.cron
+
+# Option 2: Cloud Scheduler + Cloud Run (GCP)
+# Wrap each task prompt in a Cloud Function
+
+# Option 3: systemd timers (Linux servers)
+```
+
+Phase 5 auto-detects which tools are available and adapts accordingly.
+
+### Other Claude Code setup notes
+
+1. **Chrome MCP requires manual config.** Add it to your `.claude/settings.json` as an MCP server. Same capabilities as Cowork, different setup path.
+2. **File paths are local.** Replace `/mnt/linkedin/` with your actual project directory path.
+3. **Claude reads the same CLAUDE.md at runtime.** The identity document, anti-detection rules, and engagement config work identically — Claude Code reads them from your project root.
 
 ## Recommended setup by use case
 

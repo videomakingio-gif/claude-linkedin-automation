@@ -222,7 +222,8 @@ Full methodology: [`references/anti-detection-playbook.md`](references/anti-dete
 | Wizard (Phase 1-4) | Full | Full | Full | Full |
 | Identity document generation | Full | Full | Full | Full |
 | Weekly plan creation | Full | Full | Full | Full |
-| Scheduled tasks (Phase 5) | crontab / Cloud Scheduler | `create_scheduled_task` | Manual | Manual |
+| Session tasks (Phase 5) | `CronCreate` (3-day max) | `create_scheduled_task` | — | — |
+| Permanent tasks (Phase 5) | crontab / Cloud Scheduler | `create_scheduled_task` | Manual | Manual |
 | Browser automation | Chrome MCP (manual config) | Chrome MCP (built-in) | — | — |
 | Update flow | Full | Full | Full | Full |
 | Install method | Symlink (auto-update) | Symlink | File copy | File copy |
