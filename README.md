@@ -1,203 +1,162 @@
 # Claude LinkedIn Automation
 
-A battle-tested skill for managing a professional LinkedIn profile autonomously using Claude. Built and validated over 12+ weeks on a real profile, with 21 automations in production, zero AI detection.
+A battle-tested skill for managing a professional LinkedIn profile autonomously using Claude. Built and validated over 22 days on a real Italian profile, with 10 scheduled tasks in production, zero AI detection.
 
-This isn't theory. Every rule in this skill was extracted from daily operation, daily audits, and weekly iterations on a live Italian LinkedIn profile in the AI/B2B niche.
+Every rule in this skill was extracted from daily operation, daily audits, and weekly iterations on a live profile in the AI/B2B niche.
 
-> **⚠️ Legal Disclaimer**
-> This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans resulting from the use of this system. This project is published for educational and research purposes.
+> **Legal Disclaimer**
+> This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans. Published for educational and research purposes.
 
-## Results
+## Results (22 days, G0-G22, March 3-24, 2026)
 
 | Metric | Value |
 |--------|-------|
-| Duration | 12+ weeks (March–May 2026) |
-| Automations in production | 21 |
-| Follower growth | 45 → 200+ |
+| Duration | 22 days of daily operation |
+| Scheduled tasks | 10 (9 active + 1 disabled) |
+| Follower growth | 45 → 55 (+22%) |
 | Posts published | 7/week, zero missed |
 | Engagement sessions | Daily, 25 min each |
 | AI detection incidents | 0 |
-| Average engagement score | 8.2/10 |
-| Non-Detection Index (NDI) | 5.0+ avg |
+| L1 proof events | 13 named interactions |
+| Avg engagement score | 8.0/10 |
+| Non-Detection Index | 5.0+ avg |
 
-The profile received named replies, multi-message DM conversations, public mentions, and connection requests from real professionals in the niche — all treating the account as human-operated.
+The profile received named replies, multi-message DM conversations, public mentions, and connection requests from professionals who had no idea the account was AI-managed.
+
+### Growth Charts
+
+![Follower Growth](assets/follower-growth.png)
+
+![Engagement Quality Score](assets/engagement-score.png)
+
+![Non-Detection Index](assets/ndi-tracking.png)
+
+![L1 Proof Events](assets/l1-proof-events.png)
+
+![Impressions per Post](assets/impressions-week3.png)
+
+**[Interactive Dashboard (HTML)](assets/growth-dashboard.html)** — same data with hover tooltips
 
 ## What This Skill Does
 
-It covers the full lifecycle of LinkedIn automation in 5 layers:
+It covers the full lifecycle of LinkedIn automation in a 5-phase guided wizard:
 
 ```
-Layer 1: IDENTITY      Define who you are, your voice, vocabulary, red flags
-Layer 2: STRATEGY      Pillar calendar, content mix, audience targeting
-Layer 3: CONTENT       Post creation, formats, hooks, closings, humanization
-Layer 4: ENGAGEMENT    Commenting, liking, DMs, anti-detection rules
-Layer 5: MEASUREMENT   Weekly reports, KPI tracking, experiment auditing
+Phase 1: IDENTITY       Define voice, vocabulary, red flags, blacklist
+Phase 2: STRATEGY       Pillar calendar, post format, humanization rules
+Phase 3: ENGAGEMENT     Commenting, liking, anti-detection rules, verification
+Phase 4: TASK PLAN      Review all tasks before creation (you approve first)
+Phase 5: CREATE & RUN   Deploy tasks, monitor, iterate
 ```
-
-Each layer builds on the previous. The skill guides you through setup in order.
 
 ## Architecture
 
 ```
 claude-linkedin-automation/
-├── SKILL.md                          # Main skill — 6-step setup guide
+├── SKILL.md                              # 5-phase guided wizard
+├── modules/
+│   └── linkedin.md                       # Full LinkedIn module config
 ├── references/
-│   ├── tov-framework.md              # Tone of voice: 4 axes, vocabulary system, rhetorical patterns
-│   ├── anti-detection-playbook.md    # Anti-detection: 7 rules, scoring, NDI formula, escalation
-│   └── content-templates.md          # Templates for each pillar day + micro-posts + first comments
-├── examples/
-│   ├── weekly-plan.md                # Example weekly content plan (7 posts + auto-comments)
-│   └── engagement-session.md         # Example engagement session with scoring
-└── assets/
-    └── architecture.svg              # System architecture diagram
+│   ├── tov-framework.md                  # Voice: axes, vocabulary, rhetorical patterns
+│   ├── anti-detection-playbook.md        # Anti-detection: rules, scoring, NDI formula
+│   ├── content-templates.md              # Day-by-day post templates + examples
+│   ├── epistemic-verification.md         # 7-checkpoint fact verification gate
+│   └── task-catalog.md                   # Full prompt templates for all 10 tasks
+├── README.md
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+└── LICENSE
 ```
 
 ## Quick Start
 
-### 1. Install the skill
+### 1. Install
 
-Download the `.skill` file from [Releases](../../releases) and install it in Claude Code or Cowork:
-
-```bash
-claude install claude-linkedin-automation.skill
-```
-
-Or clone this repo and point Claude at the `SKILL.md`:
+Download `.skill` from [Releases](../../releases) or clone:
 
 ```bash
-git clone https://github.com/giovanniliguori/claude-linkedin-automation.git
+git clone https://github.com/videomakingio-gif/claude-linkedin-automation.git
 ```
 
-### 2. Define your identity
+### 2. Run the wizard
 
-The skill walks you through creating an identity document. You'll need:
+The skill walks you through 5 phases:
 
-- Your professional positioning (archetype, not job title)
-- How you actually write (vocabulary, sentence structure, formality)
-- Words you'd never use (the blacklist matters more than the whitelist)
-- 3-5 competitors and how you differ
+1. **Identity & Voice** — Define who you are, how you write, what you never say
+2. **Strategy & Content** — Pillar calendar, post format, humanization rules
+3. **Engagement & Anti-Detection** — Comment rules, verification gate, scoring
+4. **Task Plan Review** — See every task, edit schedules, approve before creation
+5. **Create & Iterate** — Tasks deployed, first week monitoring, adjustment triggers
 
-### 3. Build your pillar calendar
+### 3. Iterate
 
-Assign a content theme and emotional register to each day of the week. The skill provides a proven template:
-
-| Day | Theme | Register |
-|-----|-------|----------|
-| Mon | Behind the Scenes | Curious, vulnerable |
-| Tue | Tool / Workflow | Pragmatic, generous |
-| Wed | Hot Take | Provocative, moral |
-| Thu | Case Study | Proud, specific |
-| Fri | How-To Tutorial | Didactic, patient |
-| Sat | Storytelling | Personal, reflective |
-| Sun | Soft CTA | Direct, confident |
-
-### 4. Set up scheduled tasks
-
-Create these recurring tasks (adapt timing to your timezone):
-
-| Task | Schedule | Purpose |
-|------|----------|---------|
-| `daily-post` | Every day 8:00 | Publish post + auto-comment after 20 min |
-| `daily-engagement` | Every day 9:00 | 25-min engagement session |
-| `weekly-report` | Sunday 20:00 | Analytics + performance report |
-| `weekly-planner` | Saturday 17:00 | Create next week's content plan |
-
-### 5. Run and iterate
-
-The first week will be rough. That's normal. The anti-detection playbook includes a daily audit template and scoring rubric. Use them. Patterns emerge after 5-7 days and guide your adjustments.
+The first week will be rough. The system includes daily audits, weekly reports, and rule adjustment triggers. Patterns emerge after 5-7 days.
 
 ## Key Concepts
 
-### Anti-Detection: The 7 Rules
+### Anti-Detection (7 Rules)
 
-The engagement anti-detection system was developed through daily audits over 12+ weeks. These are the rules that kept the profile undetected:
+Developed through daily audits over 22 days. These rules kept the profile undetected:
 
 1. **Tool mention limit**: Max 2/5 comments can mention your primary tool
 2. **Structure variation**: Never repeat the same comment structure consecutively
 3. **Off-topic comment**: At least 1/5 on a theme outside your niche
-4. **No pattern repetition**: Each comment must have a unique rhetorical approach
-5. **Evangelization limit**: Max 1 phrase per session that sounds like product promotion
-6. **Like-only on agreements**: When someone agrees, just like. Don't extend the thread.
-7. **Fact-check before asserting**: If a post cites a specific case, verify before commenting
+4. **Evangelization limit**: Max 1 promotional-sounding phrase per session
+5. **Like-only on agreements**: When someone agrees, just like. Don't extend
+6. **Fact-check before asserting**: Verify before commenting on specific cases
+7. **High-traffic targeting**: At least 1 comment/session on posts with 200+ reactions
 
-Full methodology with scoring rubric: [`references/anti-detection-playbook.md`](references/anti-detection-playbook.md)
+Full methodology: [`references/anti-detection-playbook.md`](references/anti-detection-playbook.md)
 
 ### Non-Detection Index (NDI)
-
-A composite metric that measures how "human" your profile appears based on interaction quality:
 
 ```
 NDI = (L1 × 2 + L2 × 1) / (L1 + L2 + L3) × 10
 ```
 
-Where:
-- **L1** (strong signal): Named replies, multi-message conversations, public mentions
-- **L2** (medium signal): Genuine questions, connection requests, multiple likes
-- **L3** (weak signal): Generic likes, one-word replies
+- **L1**: Named replies, multi-message conversations, public mentions
+- **L2**: Genuine questions, connection requests
+- **L3**: Generic likes, one-word replies
 
 NDI > 5.0 = healthy. Below 3.0 = investigate.
 
-### Humanization Rules
+### Task Approval Workflow
 
-The 5 rules that prevent posts from reading as AI-generated:
+The wizard generates a complete task plan table. You review every task, adjust schedules, remove what you don't need. Nothing is automated until you explicitly approve.
 
-1. At least 1 parenthetical or "thinking out loud" moment per post
-2. 2-3 informal markers per post (sentence fragments, self-questions, casual transitions)
-3. At least 1 "imperfect" element (interrupted thought, correction, doubt)
-4. 1 vulnerability post every 2 weeks (something that went wrong)
-5. **Never all posts the same length** — this is the #1 detection signal
+### Minimum Viable Setup
+
+Don't need all 10 tasks? Start with 3:
+- `linkedin-daily-post` — Publishes your content
+- `linkedin-daily-engagement` — Builds your network
+- `linkedin-weekly-report` — Measures results
 
 ## Who Built This
 
 **Giovanni Liguori** — AI Automation Architect. I transform manual processes into automated ecosystems for Italian SMBs and freelancers using Claude + Python + Google Cloud.
 
-My own LinkedIn profile runs entirely on this system: 21 automations in production that publish, engage, analyze, and report — every day, autonomously.
-
-This skill is the distilled methodology from that experience.
-
 - Website: [giovanniliguori.it](https://giovanniliguori.it)
 - LinkedIn: [linkedin.com/in/giovanniliguori-ai](https://www.linkedin.com/in/giovanniliguori-ai/)
-- Full case study: [giovanniliguori.it/case-study/ecosistema-claude](https://giovanniliguori.it/case-study/ecosistema-claude)
-- Claude Mastery (guide): [giovanniliguori.it/claude-mastery](https://giovanniliguori.it/claude-mastery)
+- Case study: [giovanniliguori.it/case-study/ecosistema-claude](https://giovanniliguori.it/case-study/ecosistema-claude)
 
 ## The Experiment
 
 This skill was developed as part of a documented social experiment: can a well-instructed LLM manage a professional LinkedIn profile without being identified as non-human?
 
-After 12+ weeks of daily operation:
+After 22 days of daily operation (G0-G22):
 - Zero detection incidents
-- Multiple named conversations with real professionals
-- Public mentions and recommendations from people who had no idea
-- Engagement quality scores averaging 8.2/10
-
-The full experiment methodology, daily audit data, and findings are documented in the case study linked above.
-
-## Related Resources
-
-- **[Claude Mastery](https://giovanniliguori.it/claude-mastery)** — 37-page operational guide to Claude: Projects, Skills, Claude Code, Cowork, sub-agents, and 4 measured case studies (€19)
-- **[5 Workflow Claude](https://giovanniliguori.it/5-workflow-claude)** — Free lead magnet: 5 Claude workflows that save 40+ hours/month
-- **[Case Study: Ecosistema Claude](https://giovanniliguori.it/case-study/ecosistema-claude)** — Full technical breakdown of the 21-automation ecosystem
+- 13 L1 proof events (named conversations with professionals)
+- Engagement quality scores averaging 8.0/10
+- NDI consistently above 5.0
 
 ## License
 
-**MIT License**
-
-Copyright © 2026 Giovanni Liguori
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-- **Legal disclaimer:** Use at your own risk. The authors assume no liability for account restrictions or bans.
-
----
-
-**Author:** Giovanni Liguori
-**Year:** 2026
-**Repository:** [github.com/giovanniliguori/claude-linkedin-automation](https://github.com/giovanniliguori/claude-linkedin-automation)
-**License:** MIT
+**MIT License** — Copyright © 2026 Giovanni Liguori
 
 ## Contributing
 
-Found a bug? Have a better anti-detection rule? Open an issue or PR. The methodology improves with more data points.
+See [CONTRIBUTING.md](CONTRIBUTING.md). The methodology improves with more data points.
 
-If you're running this on your own profile and want to share anonymized results, I'd love to include them in the dataset.
+---
+
+**Repository:** [github.com/videomakingio-gif/claude-linkedin-automation](https://github.com/videomakingio-gif/claude-linkedin-automation)

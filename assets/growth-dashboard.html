@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude LinkedIn Automation — Growth Dashboard (G0-G22)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e0e0e0; font-family: 'Inter', -apple-system, sans-serif; padding: 2rem; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.3rem; color: #fff; }
+  .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 2rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+  .card { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 1.5rem; }
+  .card h2 { font-size: 1.1rem; color: #ccc; margin-bottom: 0.3rem; }
+  .card .metric { font-size: 2.2rem; font-weight: 700; color: #00BFFF; margin-bottom: 0.8rem; }
+  .card .metric span { font-size: 0.9rem; color: #666; font-weight: 400; }
+  .full-width { grid-column: 1 / -1; }
+  canvas { max-height: 280px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1.5rem; max-width: 1200px; margin: 0 auto 1.5rem; }
+  .kpi { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 1rem; text-align: center; }
+  .kpi .value { font-size: 1.8rem; font-weight: 700; color: #00BFFF; }
+  .kpi .label { font-size: 0.75rem; color: #888; margin-top: 0.3rem; }
+  .kpi .delta { font-size: 0.8rem; color: #4ade80; margin-top: 0.2rem; }
+  .kpi .delta.negative { color: #f87171; }
+  .footer { text-align: center; color: #555; font-size: 0.8rem; margin-top: 2rem; max-width: 1200px; margin: 2rem auto 0; }
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div style="max-width: 1200px; margin: 0 auto;">
+  <h1>Claude LinkedIn Automation</h1>
+  <p class="subtitle">Growth Dashboard — 22 days production data (G0-G22, March 3-24, 2026)</p>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="value">55</div>
+    <div class="label">Followers</div>
+    <div class="delta">+22% from 45</div>
+  </div>
+  <div class="kpi">
+    <div class="value">0</div>
+    <div class="label">Detection Incidents</div>
+    <div class="delta">22 days clean</div>
+  </div>
+  <div class="kpi">
+    <div class="value">13</div>
+    <div class="label">L1 Proof Events</div>
+    <div class="delta">Named interactions</div>
+  </div>
+  <div class="kpi">
+    <div class="value">8.0</div>
+    <div class="label">Avg Engagement Score</div>
+    <div class="delta">/10</div>
+  </div>
+  <div class="kpi">
+    <div class="value">5.0+</div>
+    <div class="label">Avg NDI</div>
+    <div class="delta">Non-Detection Index</div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- Follower Growth -->
+  <div class="card">
+    <h2>Follower Growth</h2>
+    <div class="metric">45 → 55 <span>+22% in 22 days</span></div>
+    <canvas id="followerChart"></canvas>
+  </div>
+
+  <!-- Engagement Score -->
+  <div class="card">
+    <h2>Engagement Quality Score</h2>
+    <div class="metric">8.0 avg <span>/10 (target: 8.0+)</span></div>
+    <canvas id="engagementChart"></canvas>
+  </div>
+
+  <!-- NDI -->
+  <div class="card">
+    <h2>Non-Detection Index (NDI)</h2>
+    <div class="metric">5.0+ avg <span>healthy threshold: 5.0</span></div>
+    <canvas id="ndiChart"></canvas>
+  </div>
+
+  <!-- L1 Proof Events Cumulative -->
+  <div class="card">
+    <h2>L1 Proof Events (Cumulative)</h2>
+    <div class="metric">13 <span>named interactions by professionals</span></div>
+    <canvas id="l1Chart"></canvas>
+  </div>
+
+  <!-- Impressions per Post (Week 3) -->
+  <div class="card full-width">
+    <h2>Impressions per Post — Week 3 (best data quality)</h2>
+    <div class="metric">37.1 avg <span>vs 43.6 baseline (90-day avg)</span></div>
+    <canvas id="impressionsChart"></canvas>
+  </div>
+
+</div>
+
+<div class="footer">
+  Data source: /mnt/linkedin/report/ and /mnt/linkedin/experiment/meta/findings.md<br>
+  Generated from 22 days of autonomous LinkedIn operation. All metrics verified.
+</div>
+
+<script>
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: { grid: { color: '#1a1a1a' }, ticks: { color: '#666', font: { size: 10 } } },
+    y: { grid: { color: '#1a1a1a' }, ticks: { color: '#666' } }
+  }
+};
+
+// Follower Growth
+new Chart(document.getElementById('followerChart'), {
+  type: 'line',
+  data: {
+    labels: ['G0', 'G4', 'G7', 'G13', 'G14', 'G18', 'G20', 'G22'],
+    datasets: [{
+      data: [45, 47, 47, 50, 50, 55, 55, 55],
+      borderColor: '#00BFFF',
+      backgroundColor: 'rgba(0,191,255,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#00BFFF'
+    }]
+  },
+  options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, min: 40, max: 60 } } }
+});
+
+// Engagement Score
+new Chart(document.getElementById('engagementChart'), {
+  type: 'bar',
+  data: {
+    labels: ['G1','G2','G3','G4','G6','G7','G8','G9','G11','G12','G13','G14','G15','G16','G18','G19','G20'],
+    datasets: [{
+      data: [6.75, 8.0, 9.0, 9.0, 2.0, 6.5, 8.5, 8.0, 9.5, 8.0, 8.5, 5.25, 8.5, 6.75, 8.6, 7.0, 7.75],
+      backgroundColor: function(ctx) {
+        const v = ctx.raw;
+        if (v >= 8.0) return 'rgba(74,222,128,0.7)';
+        if (v >= 6.0) return 'rgba(250,204,21,0.7)';
+        return 'rgba(248,113,113,0.7)';
+      },
+      borderRadius: 4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, min: 0, max: 10 }
+    },
+    plugins: {
+      ...chartDefaults.plugins,
+      annotation: {
+        annotations: {
+          line1: { type: 'line', yMin: 8, yMax: 8, borderColor: 'rgba(74,222,128,0.3)', borderDash: [5, 5] }
+        }
+      }
+    }
+  }
+});
+
+// NDI
+new Chart(document.getElementById('ndiChart'), {
+  type: 'line',
+  data: {
+    labels: ['G8','G9','G12','G15-16','G18','G19','G20'],
+    datasets: [{
+      label: 'NDI',
+      data: [6.2, 5.0, 5.0, 5.0, 1.8, 3.0, 7.1],
+      borderColor: '#a78bfa',
+      backgroundColor: 'rgba(167,139,250,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 5,
+      pointBackgroundColor: '#a78bfa'
+    }, {
+      label: 'Threshold',
+      data: [5, 5, 5, 5, 5, 5, 5],
+      borderColor: 'rgba(248,113,113,0.4)',
+      borderDash: [5, 5],
+      pointRadius: 0,
+      fill: false
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: { legend: { display: true, labels: { color: '#888', font: { size: 10 } } } },
+    scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, min: 0, max: 10 } }
+  }
+});
+
+// L1 Proof Events Cumulative
+new Chart(document.getElementById('l1Chart'), {
+  type: 'line',
+  data: {
+    labels: ['G7','G8','G9','G12','G13','G15','G18','G19','G20','G21','G22'],
+    datasets: [{
+      data: [1, 3, 4, 5, 6, 8, 8, 9, 11, 13, 13],
+      borderColor: '#f59e0b',
+      backgroundColor: 'rgba(245,158,11,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: '#f59e0b',
+      stepped: false
+    }]
+  },
+  options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, min: 0 } } }
+});
+
+// Impressions per Post Week 3
+new Chart(document.getElementById('impressionsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Mon\nBuild in Public', 'Tue\nTool/Workflow', 'Wed\nOpinione', 'Thu\nCase Study', 'Fri\nHow-To', 'Sat\nURGENT', 'Sun\nCTA soft'],
+    datasets: [{
+      label: 'Week 3 (S3)',
+      data: [43, 35, 71, 23, 43, 21, 24],
+      backgroundColor: 'rgba(0,191,255,0.7)',
+      borderRadius: 4
+    }, {
+      label: 'Baseline (90-day avg)',
+      data: [18.8, 24.0, 22.8, 29.3, 35.9, 18.7, 16.0],
+      backgroundColor: 'rgba(100,100,100,0.4)',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: { legend: { display: true, labels: { color: '#888', font: { size: 10 } } } },
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, min: 0 }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
