@@ -34,9 +34,30 @@ Adds a LinkedIn automation skill to the Communication section.
 ## What the skill does
 
 A 5-phase guided wizard that sets up autonomous LinkedIn management:
-identity definition (15 questions), 7-day content calendar, engagement
-rules with empirically-validated anti-detection safeguards, task plan
-review with approval gate, and deployment of up to 10 scheduled tasks.
+identity definition (15 questions with selection-based UX), 7-day content
+calendar, engagement rules with empirically-validated anti-detection
+safeguards, task plan review with approval gate, and deployment of up
+to 10 scheduled tasks.
+
+## Installation
+
+Interactive installer with scope and IDE selection:
+
+```bash
+git clone https://github.com/videomakingio-gif/claude-linkedin-automation.git
+cd claude-linkedin-automation
+chmod +x install.sh && ./install.sh
+```
+
+The installer wizard lets you choose:
+- **Scope**: Global (all projects) / Project (current only) / Both
+- **IDE**: Claude Code / Cursor / Windsurf (multi-select)
+- Uses [gum](https://github.com/charmbracelet/gum) for TUI selection
+  boxes when available, falls back to plain prompts otherwise
+- Quick flags: `--global`, `--project`, `--uninstall`
+- Claude Code installs via symlink (auto-updates with `git pull`)
+
+After installing, type `/linkedin` in any Claude session to start the wizard.
 
 ## Why it belongs here
 
@@ -45,7 +66,7 @@ review with approval gate, and deployment of up to 10 scheduled tasks.
 - Includes a 7-checkpoint epistemic verification gate for factual claims
 - Full reference documentation: TOV framework, anti-detection playbook,
   content templates, task catalog
-- Interactive installer for Claude Code, Cursor, and Windsurf
+- Interactive installer with gum-powered TUI for Claude Code, Cursor, and Windsurf
 - MIT licensed, open source, with CONTRIBUTING.md and CHANGELOG.md
 
 ## Checklist
