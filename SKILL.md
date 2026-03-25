@@ -36,40 +36,121 @@ This is an interactive wizard, not a documentation dump. You are the guide. The 
 
 ## How to Run Each Phase
 
+### UX Rule: Selection Over Typing
+
+**CRITICAL: Wherever a question has a finite set of common answers, present options the user can pick from instead of asking them to type from scratch.** Use numbered lists or lettered options. Always include a "Other (describe)" escape hatch. The user can pick a number OR type a free-form answer.
+
+This reduces friction, speeds up the wizard, and helps users who don't know where to start. Open-ended questions (USP, origin story, vocabulary) remain free-form.
+
 ### Phase 1: Identity & Voice (3-4 conversation turns)
 
 **Turn 1** — Ask questions 1-4 (who they are):
-> "Let's start by defining your identity. I need 4 things:
-> 1. What's your professional title? (Not job title — how you want to be known)
-> 2. What did you do before this? (Origin story)
-> 3. What's your unique stack/methodology?
-> 4. What's your one-line USP? ('I help [who] do [what] by [how]')"
+
+> **1. What's your professional title?** (Not your job title — how you want to be known)
+>
+> Pick one or describe your own:
+> - a) AI/Automation Consultant
+> - b) Marketing Strategist
+> - c) Business Coach
+> - d) Software Developer / Engineer
+> - e) Freelance Creative (Design / Video / Copy)
+> - f) Founder / CEO
+> - g) Consultant (Legal / Finance / HR)
+> - h) Other — describe:
+>
+> **2. What did you do before this?** (Your origin story — what gives you credibility)
+> _Free answer. Example: "I spent 8 years editing video before discovering automation."_
+>
+> **3. What's your unique stack/methodology?**
+>
+> Pick your primary tools or describe your own:
+> - a) Claude + Python + Google Cloud
+> - b) ChatGPT + Zapier + Notion
+> - c) Custom code + APIs + self-hosted
+> - d) No-code (Make, n8n, Bubble)
+> - e) Framework/methodology (not tool-based)
+> - f) Other — describe:
+>
+> **4. What's your one-line USP?** ("I help [who] do [what] by [how]")
+> _Free answer. Example: "I help freelancers automate 40+ hours/month of repetitive work using Claude ecosystems."_
 
 Wait for answers. Acknowledge, then proceed.
 
 **Turn 2** — Ask questions 5-8 (voice):
-> "Now let's lock down your voice:
-> 5. Name 3 people whose communication style you admire. What specifically?
-> 6. List 5 words you ALWAYS use and 5 you NEVER use
-> 7. What's your signature closing line? (Optional but powerful)
-> 8. How do you handle disagreement? (Aggressive, diplomatic, Socratic, data-driven?)"
+
+> **5. Name 1-3 people whose communication style you admire. What specifically?**
+> _Free answer. Example: "Naval Ravikant — concise, aphoristic. Sahil Bloom — structured threads."_
+>
+> **6. List 5 words you ALWAYS use and 5 you NEVER use**
+> _Free answer. This defines your vocabulary fingerprint._
+>
+> **7. What's your signature closing line?** (Optional but powerful)
+>
+> Pick one or write your own:
+> - a) I don't want one
+> - b) A call to action ("Start today.")
+> - c) A philosophical mic-drop ("The system works. You start it.")
+> - d) A question ("What would you automate first?")
+> - e) Other — write yours:
+>
+> **8. How do you handle disagreement?**
+>
+> Pick your style:
+> - a) Diplomatic — acknowledge, then redirect
+> - b) Data-driven — counter with numbers
+> - c) Socratic — ask questions that expose the flaw
+> - d) Direct/Provocative — state your position clearly
+> - e) Avoidant — don't engage with conflict
 
 Wait for answers.
 
 **Turn 3** — Ask questions 9-12 (audience):
-> "Who are you talking to?
-> 9. Primary audience? (Job title, company size, pain point)
-> 10. Secondary audience?
-> 11. What keeps them awake at 2am?
-> 12. What do they Google that leads to people like you?"
+
+> **9. Who is your primary audience?**
+>
+> Pick the closest match or describe your own:
+> - a) Freelancers / Solo consultants
+> - b) SMB owners (1-50 employees)
+> - c) Marketing managers / CMOs
+> - d) Developers / Engineers
+> - e) C-suite / Founders
+> - f) Coaches / Trainers / Educators
+> - g) Other — describe:
+>
+> **10. Who is your secondary audience?**
+> _Same options as above, or "None"._
+>
+> **11. What keeps them awake at 2am?**
+>
+> Pick the closest or write your own:
+> - a) "I'm spending too much time on repetitive tasks"
+> - b) "My competitors are moving faster than me"
+> - c) "I can't scale without hiring more people"
+> - d) "I don't know which AI tools to trust"
+> - e) "My clients expect more but my margins are shrinking"
+> - f) Other — describe:
+>
+> **12. What do they Google that leads to people like you?**
+> _Free answer. Example: "AI automation for small business", "how to use Claude for work"_
 
 Wait for answers.
 
 **Turn 4** — Ask questions 13-15 (positioning):
-> "Last block — positioning:
-> 13. Top 3 competitors. What do they do that you don't? What do you do that they don't?
-> 14. Complete: 'Unlike [competitor], I [differentiator]'
-> 15. What result can you prove with data? (Hours saved, revenue generated, cost reduced)"
+
+> **13. Top 3 competitors.** What do they do that you don't? What do you do that they don't?
+> _Free answer. Name specific people, companies, or creator archetypes._
+>
+> **14. Complete: "Unlike [competitor], I [differentiator]"**
+> _Free answer._
+>
+> **15. What result can you prove with data?**
+>
+> Pick a category and fill in your number:
+> - a) Hours saved: ___ hours/month
+> - b) Revenue generated: €/$ ___
+> - c) Cost reduced: ___% or €/$ ___
+> - d) Speed improvement: from ___ to ___
+> - e) Other metric — describe:
 
 Wait for answers. Then proceed to **Identity Document Generation** (see below).
 
@@ -135,8 +216,25 @@ Save the approved document as `CLAUDE.md` in the user's LinkedIn working directo
 
 ### Phase 2: Strategy & Content (1-2 turns)
 
-Present the pillar calendar from the Phase 2 section below. Ask:
-> "Here's the 7-day pillar calendar. Each day has a theme and emotional register. You can customize any day. Want to change anything, or does this work for your niche?"
+Present the pillar calendar from the Phase 2 section below, then ask:
+
+> Here's the default 7-day pillar calendar. Each day has a theme and emotional register.
+>
+> | Day | Pillar | Emotional Register |
+> |-----|--------|-------------------|
+> | Mon | Behind the Scenes | Curious, vulnerable |
+> | Tue | Tool/Workflow | Pragmatic, generous |
+> | Wed | Hot Take/Opinion | Provocative, moral |
+> | Thu | Case Study/Results | Proud, specific |
+> | Fri | How-To Tutorial | Didactic, patient |
+> | Sat | Storytelling | Personal, reflective |
+> | Sun | Soft CTA | Direct, confident |
+>
+> **What do you want to do?**
+> - a) Looks good — keep this calendar as-is
+> - b) I want to swap some days (tell me which)
+> - c) I want to change pillar topics for my niche (tell me your niche)
+> - d) I want a different structure entirely (describe)
 
 Wait for feedback. Adjust if needed. Then show the post format and humanization rules.
 
@@ -144,21 +242,48 @@ Read `references/content-templates.md` for day-by-day templates and examples whe
 
 ### Phase 3: Engagement & Anti-Detection (1 turn)
 
-Present the engagement rules and anti-detection summary from Phase 3 below. Ask:
-> "These are the engagement rules, tested over 22 days with zero detection. The key limits: max 2/5 comments mention your tool, 1+ off-topic comment per session, fact-check before asserting. Any rules you want to adjust?"
+Present the engagement rules summary, then ask:
+
+> These are the engagement rules, tested over 22 days with zero detection:
+>
+> - Max 2/5 comments mention your tool
+> - At least 1/5 off-topic comment per session
+> - Never repeat same comment structure consecutively
+> - Fact-check before asserting (or rephrase as question)
+> - 25-min sessions, 8-10 likes + 5 comments
+>
+> **What do you want to do?**
+> - a) Keep all rules as-is (recommended)
+> - b) I want to adjust limits (tell me which)
+> - c) I want shorter/longer sessions
+> - d) I have specific profiles to blacklist (list them)
 
 Wait for confirmation. Read `references/anti-detection-playbook.md` for full scoring rubric and NDI formula.
 
 ### Phase 4: Task Plan — Review & Approve (APPROVAL GATE)
 
-Present the full task table from Phase 4 below. Then say:
+Present the full task table from Phase 4 below. Then ask:
 
-> "Here's the complete task plan — 10 tasks that will run your LinkedIn autonomously. **Review each one carefully:**
-> - Remove tasks you don't need
-> - Change schedules for your timezone
-> - Disable anything you want to control manually
+> Here are the 10 tasks. **Mark which ones you want:**
 >
-> **Nothing gets created until you say 'approved'.** What changes do you want?"
+> - [x] 1. `linkedin-daily-post` — Daily 8:00 — Publish + auto-comment
+> - [x] 2. `linkedin-daily-engagement` — Daily 9:00 — Likes + comments
+> - [x] 3. `linkedin-reply-to-replies` — Daily 16:00 — Respond to threads
+> - [x] 4. `linkedin-dm-prep` — Daily 10:00 — DM draft generation
+> - [x] 5. `linkedin-news-scout` — Daily 7:00 — Niche news scan
+> - [x] 6. `linkedin-experiment-audit` — Daily 15:00 — Quality audit
+> - [x] 7. `linkedin-weekly-planner` — Sat 17:00 — Generate next week's posts
+> - [x] 8. `linkedin-weekly-diary` — Sat 19:00 — Blog draft
+> - [x] 9. `linkedin-weekly-report` — Sun 20:00 — Analytics report
+> - [ ] 10. `linkedin-outreach-daily` — Disabled — Cold outreach (opt-in)
+>
+> **Quick options:**
+> - a) Keep all 9 active tasks (recommended)
+> - b) Minimum setup: tasks 1 + 2 + 9 only
+> - c) I want to customize (tell me which to remove/change)
+> - d) I need to change schedules for my timezone (what's your timezone?)
+>
+> **Nothing gets created until you say 'approved'.**
 
 **THIS IS A HARD GATE.** Do NOT proceed to Phase 5 until the user explicitly says "approved", "looks good", "go ahead", "let's do it", or equivalent clear confirmation. If the user asks questions or requests changes, address them and ask again.
 
