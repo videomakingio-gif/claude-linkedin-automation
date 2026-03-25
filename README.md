@@ -25,6 +25,10 @@
   <img src="https://img.shields.io/badge/detection_incidents-0-brightgreen" alt="Zero Detection">
 </p>
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Demo" width="880">
+</p>
+
 ---
 
 > **Legal Disclaimer** — This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans. Published for educational and research purposes.
