@@ -1,13 +1,134 @@
-# Claude LinkedIn Automation
+<p align="center">
+  <h1 align="center">Claude LinkedIn Automation</h1>
+  <p align="center">
+    Autonomous LinkedIn management, validated in production.<br>
+    22 days. 10 tasks. Zero detection.
+  </p>
+</p>
 
-A battle-tested skill for managing a professional LinkedIn profile autonomously using Claude. Built and validated over 22 days on a real Italian profile, with 10 scheduled tasks in production, zero AI detection.
+<p align="center">
+  <a href="#install">Install</a> &nbsp;&bull;&nbsp;
+  <a href="#how-it-works">How It Works</a> &nbsp;&bull;&nbsp;
+  <a href="#results">Results</a> &nbsp;&bull;&nbsp;
+  <a href="#anti-detection">Anti-Detection</a> &nbsp;&bull;&nbsp;
+  <a href="#compatibility">Compatibility</a> &nbsp;&bull;&nbsp;
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
 
-Every rule in this skill was extracted from daily operation, daily audits, and weekly iterations on a live profile in the AI/B2B niche.
+<p align="center">
+  <img src="https://img.shields.io/badge/version-3.1.0-blue" alt="Version">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+  <img src="https://img.shields.io/badge/Claude_Code-skill-8A2BE2" alt="Claude Code Skill">
+  <img src="https://img.shields.io/badge/Cowork-compatible-orange" alt="Cowork Compatible">
+  <img src="https://img.shields.io/badge/Cursor-compatible-teal" alt="Cursor Compatible">
+  <img src="https://img.shields.io/badge/Windsurf-compatible-cyan" alt="Windsurf Compatible">
+  <img src="https://img.shields.io/badge/detection_incidents-0-brightgreen" alt="Zero Detection">
+</p>
 
-> **Legal Disclaimer**
-> This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans. Published for educational and research purposes.
+---
 
-## Results (22 days, G0-G22, March 3-24, 2026)
+> **Legal Disclaimer** — This skill documents an autonomous LinkedIn management system. Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans. Published for educational and research purposes.
+
+---
+
+## What Is This?
+
+A **custom skill for Claude** that turns your AI assistant into a full-stack LinkedIn manager. It posts daily, engages with your network, triages DMs, audits itself for detection risk, and reports weekly — all autonomously.
+
+Every rule is extracted from **22 days of real production data** on a live Italian profile. Not theory. Not best guesses. Empirical evidence from daily audits, scored engagement sessions, and 3 documented incidents that shaped the system.
+
+### The 5-Phase Wizard
+
+Type `/linkedin` and Claude walks you through setup:
+
+```
+Phase 1  IDENTITY        15 questions to define your voice, vocabulary, red flags
+Phase 2  STRATEGY        7-day pillar calendar, post format, humanization rules
+Phase 3  ENGAGEMENT      Commenting rules, anti-detection, epistemic verification
+Phase 4  TASK PLAN       Review every task before anything gets automated
+Phase 5  CREATE & RUN    Deploy tasks, monitor, iterate weekly
+```
+
+Nothing is automated until you explicitly approve. Phase 4 is a **hard gate** — Claude will not proceed without your "approved."
+
+---
+
+<h2 id="install">Install</h2>
+
+```bash
+git clone https://github.com/videomakingio-gif/claude-linkedin-automation.git
+cd claude-linkedin-automation
+chmod +x install.sh && ./install.sh
+```
+
+The interactive installer walks you through 3 choices:
+
+| Step | Options |
+|------|---------|
+| **Scope** | Global (all projects) / Project (current only) / Both |
+| **IDE** | Claude Code / Cursor / Windsurf / Any combination |
+| **Confirm** | Review and approve before anything is created |
+
+**Quick install** (skip the wizard):
+```bash
+./install.sh --global     # All projects, Claude Code
+./install.sh --project    # Current project only
+./install.sh --uninstall  # Remove everything, all IDEs
+```
+
+**Update:** `git pull` — Claude Code uses a symlink, so the skill stays in sync. Cursor/Windsurf use file copies — re-run the installer after pulling.
+
+After installing, type `/linkedin` in any Claude session to start.
+
+---
+
+<h2 id="how-it-works">How It Works</h2>
+
+### Architecture
+
+```
+claude-linkedin-automation/
+├── SKILL.md                              # The skill itself (5-phase wizard)
+├── install.sh                            # Interactive installer
+├── modules/
+│   └── linkedin.md                       # Full module config (560 lines)
+├── references/
+│   ├── tov-framework.md                  # Voice: 10 rhetorical patterns, vocabulary, registers
+│   ├── anti-detection-playbook.md        # 7 rules, NDI formula, escalation matrix
+│   ├── content-templates.md              # Day-by-day templates with worked examples
+│   ├── epistemic-verification.md         # 7-checkpoint fact verification gate
+│   └── task-catalog.md                   # Full prompt templates for all 10 tasks
+├── examples/
+│   ├── weekly-plan.md                    # Real Week 3 content plan
+│   └── engagement-session.md             # Scored session with 5 comments
+├── assets/                               # Growth charts and dashboard
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── LICENSE
+```
+
+### The 10 Tasks
+
+| # | Task | Schedule | What It Does |
+|---|------|----------|--------------|
+| 1 | `linkedin-daily-post` | Daily 8:00 | Publishes today's post + auto-comment after 20 min |
+| 2 | `linkedin-daily-engagement` | Daily 9:00 | 25-min session: 8-10 likes + 5 comments |
+| 3 | `linkedin-reply-to-replies` | Daily 16:00 | Responds to comment threads |
+| 4 | `linkedin-dm-prep` | Daily 10:00 | Generates DM draft replies for human review |
+| 5 | `linkedin-news-scout` | Daily 7:00 | Fetches niche news, flags content ideas |
+| 6 | `linkedin-experiment-audit` | Daily 15:00 | Naturalness score, anti-pattern compliance |
+| 7 | `linkedin-weekly-planner` | Sat 17:00 | Generates next week's 7 posts |
+| 8 | `linkedin-weekly-diary` | Sat 19:00 | Compiles behind-the-scenes blog draft |
+| 9 | `linkedin-weekly-report` | Sun 20:00 | Analytics: KPIs, per-post ranking, recommendations |
+| 10 | `linkedin-outreach-daily` | Disabled | Cold outreach (opt-in) |
+
+**Minimum viable setup:** Tasks 1 + 2 + 9. Three tasks, fully autonomous.
+
+---
+
+<h2 id="results">Results</h2>
+
+### 22 Days of Production (G0-G22, March 3-24, 2026)
 
 | Metric | Value |
 |--------|-------|
@@ -16,14 +137,17 @@ Every rule in this skill was extracted from daily operation, daily audits, and w
 | Follower growth | 45 → 55 (+22%) |
 | Posts published | 7/week, zero missed |
 | Engagement sessions | Daily, 25 min each |
-| AI detection incidents | 0 |
+| AI detection incidents | **0** |
 | L1 proof events | 13 named interactions |
 | Avg engagement score | 8.0/10 |
 | Non-Detection Index | 5.0+ avg |
 
-The profile received named replies, multi-message DM conversations, public mentions, and connection requests from professionals who had no idea the account was AI-managed.
+Professionals replied by name, sent multi-message DMs, mentioned the profile in their own posts, and sent connection requests — all without suspecting automation.
 
 ### Growth Charts
+
+<details>
+<summary>Click to expand charts</summary>
 
 ![Follower Growth](assets/follower-growth.png)
 
@@ -35,79 +159,25 @@ The profile received named replies, multi-message DM conversations, public menti
 
 ![Impressions per Post](assets/impressions-week3.png)
 
-**[Interactive Dashboard (HTML)](assets/growth-dashboard.html)** — same data with hover tooltips
+**[Interactive Dashboard (HTML)](assets/growth-dashboard.html)** — hover tooltips with daily data
 
-## What This Skill Does
+</details>
 
-It covers the full lifecycle of LinkedIn automation in a 5-phase guided wizard:
+---
 
-```
-Phase 1: IDENTITY       Define voice, vocabulary, red flags, blacklist
-Phase 2: STRATEGY       Pillar calendar, post format, humanization rules
-Phase 3: ENGAGEMENT     Commenting, liking, anti-detection rules, verification
-Phase 4: TASK PLAN      Review all tasks before creation (you approve first)
-Phase 5: CREATE & RUN   Deploy tasks, monitor, iterate
-UPDATE:  UPGRADE        Update existing setups to new skill versions without re-running the wizard
-```
+<h2 id="anti-detection">Anti-Detection</h2>
 
-## Architecture
+### 7 Rules (empirically validated)
 
-```
-claude-linkedin-automation/
-├── SKILL.md                              # 5-phase guided wizard
-├── modules/
-│   └── linkedin.md                       # Full LinkedIn module config
-├── references/
-│   ├── tov-framework.md                  # Voice: axes, vocabulary, rhetorical patterns
-│   ├── anti-detection-playbook.md        # Anti-detection: rules, scoring, NDI formula
-│   ├── content-templates.md              # Day-by-day post templates + examples
-│   ├── epistemic-verification.md         # 7-checkpoint fact verification gate
-│   └── task-catalog.md                   # Full prompt templates for all 10 tasks
-├── README.md
-├── CONTRIBUTING.md
-├── CHANGELOG.md
-└── LICENSE
-```
-
-## Quick Start
-
-### 1. Install
-
-Download `.skill` from [Releases](../../releases) or clone:
-
-```bash
-git clone https://github.com/videomakingio-gif/claude-linkedin-automation.git
-```
-
-### 2. Run the wizard
-
-The skill walks you through 5 phases:
-
-1. **Identity & Voice** — Define who you are, how you write, what you never say
-2. **Strategy & Content** — Pillar calendar, post format, humanization rules
-3. **Engagement & Anti-Detection** — Comment rules, verification gate, scoring
-4. **Task Plan Review** — See every task, edit schedules, approve before creation
-5. **Create & Iterate** — Tasks deployed, first week monitoring, adjustment triggers
-
-### 3. Iterate
-
-The first week will be rough. The system includes daily audits, weekly reports, and rule adjustment triggers. Patterns emerge after 5-7 days.
-
-## Key Concepts
-
-### Anti-Detection (7 Rules)
-
-Developed through daily audits over 22 days. These rules kept the profile undetected:
-
-1. **Tool mention limit**: Max 2/5 comments can mention your primary tool
-2. **Structure variation**: Never repeat the same comment structure consecutively
-3. **Off-topic comment**: At least 1/5 on a theme outside your niche
-4. **Evangelization limit**: Max 1 promotional-sounding phrase per session
-5. **Like-only on agreements**: When someone agrees, just like. Don't extend
-6. **Fact-check before asserting**: Verify before commenting on specific cases
-7. **High-traffic targeting**: At least 1 comment/session on posts with 200+ reactions
-
-Full methodology: [`references/anti-detection-playbook.md`](references/anti-detection-playbook.md)
+| # | Rule | Why |
+|---|------|-----|
+| 1 | **Tool mention limit**: max 2/5 comments mention your tool | 3/5 was flagged as promotion on Day 1 |
+| 2 | **Structure variation**: never repeat same pattern consecutively | Repetition is the #2 detection vector |
+| 3 | **Off-topic comment**: at least 1/5 outside your niche | 0/5 scored 6.0/10, 1-2/5 scored 8.5-9.0 |
+| 4 | **Evangelization limit**: max 1 promotional phrase per session | "I use it every day" = instant flag |
+| 5 | **Like-only on agreements**: don't extend agreement threads | Extending sounds artificial |
+| 6 | **Fact-check before asserting**: verify or rephrase as question | Profile-B incident, Day 22 |
+| 7 | **High-traffic targeting**: 1+ comment on posts with 200+ reactions | 7-12x reach multiplier |
 
 ### Non-Detection Index (NDI)
 
@@ -115,44 +185,111 @@ Full methodology: [`references/anti-detection-playbook.md`](references/anti-dete
 NDI = (L1 × 2 + L2 × 1) / (L1 + L2 + L3) × 10
 ```
 
-- **L1**: Named replies, multi-message conversations, public mentions
-- **L2**: Genuine questions, connection requests
-- **L3**: Generic likes, one-word replies
+- **L1** (weight 2): Named replies, multi-message DMs, public mentions
+- **L2** (weight 1): Genuine questions, connection requests
+- **L3** (weight 0): Generic likes, one-word replies
 
-NDI > 5.0 = healthy. Below 3.0 = investigate.
+**NDI > 5.0** = healthy. **< 3.0** = investigate. **< 4.0 two weeks** = pause 48h and audit.
 
-### Task Approval Workflow
+### Epistemic Verification Gate
 
-The wizard generates a complete task plan table. You review every task, adjust schedules, remove what you don't need. Nothing is automated until you explicitly approve.
+Before publishing any factual claim, run 7 checkpoints:
 
-### Minimum Viable Setup
+1. Fact vs. Inference — label it correctly
+2. Uncertainty Markers — verified / observed / inferred / speculative
+3. Source Attribution — name it or don't claim it
+4. Temporal Coherence — when did this happen?
+5. Case-Specific Claims — verify in 30s or rephrase as question
+6. Self-Assessment Bias — measured vs estimated vs projected
+7. Absence-as-Proof — "I haven't found" ≠ "it doesn't exist"
 
-Don't need all 10 tasks? Start with 3:
-- `linkedin-daily-post` — Publishes your content
-- `linkedin-daily-engagement` — Builds your network
-- `linkedin-weekly-report` — Measures results
+**7/7 pass = publish. 5-6/7 = fix and publish. <5/7 = rewrite.**
+
+Full methodology: [`references/anti-detection-playbook.md`](references/anti-detection-playbook.md)
+
+---
+
+<h2 id="compatibility">Compatibility</h2>
+
+| Feature | Claude Code | Cowork | Cursor | Windsurf |
+|---------|:-----------:|:------:|:------:|:--------:|
+| Wizard (Phase 1-4) | Full | Full | Full | Full |
+| Identity document generation | Full | Full | Full | Full |
+| Weekly plan creation | Full | Full | Full | Full |
+| Scheduled tasks (Phase 5) | crontab / Cloud Scheduler | `create_scheduled_task` | Manual | Manual |
+| Browser automation | Chrome MCP (manual config) | Chrome MCP (built-in) | — | — |
+| Update flow | Full | Full | Full | Full |
+| Install method | Symlink (auto-update) | Symlink | File copy | File copy |
+
+### Recommended Setup
+
+| Use case | Best environment |
+|----------|-----------------|
+| Solo operator, zero config | **Cowork** — scheduled tasks handle everything |
+| Developer, full control | **Claude Code** — cron + Python + GCP |
+| Hybrid | Wizard in Cowork, deploy in Code |
+
+---
+
+## Reference Files
+
+| File | When to read |
+|------|-------------|
+| [`references/tov-framework.md`](references/tov-framework.md) | Setting up voice, vocabulary, emotional registers |
+| [`references/anti-detection-playbook.md`](references/anti-detection-playbook.md) | Configuring engagement rules, NDI scoring |
+| [`references/content-templates.md`](references/content-templates.md) | Creating weekly post plans with day-by-day templates |
+| [`references/epistemic-verification.md`](references/epistemic-verification.md) | Before publishing any factual claim |
+| [`references/task-catalog.md`](references/task-catalog.md) | Customizing task prompts for Phase 5 |
+| [`modules/linkedin.md`](modules/linkedin.md) | Full LinkedIn module implementation reference |
+
+---
+
+## FAQ
+
+**How long does setup take?**
+4-6 hours total. Identity definition is 2-3 hours (the hardest part). First week of content 2-3 hours. Task creation 15 minutes.
+
+**What's the minimum viable setup?**
+Tasks 1 (daily-post) + 2 (daily-engagement) + 9 (weekly-report). Three tasks, fully autonomous.
+
+**Can I post more than once per day?**
+Don't. LinkedIn penalizes same-day multiple posts.
+
+**How do I know if comments are natural?**
+Target 8.0+/10 on the scoring rubric. Below 7.0 = adjust rules. See [`anti-detection-playbook.md`](references/anti-detection-playbook.md).
+
+**What if a task fails silently?**
+Every task writes a log. Check `report/` daily. The experiment-audit task (daily 15:00) catches most silent failures.
+
+---
 
 ## Who Built This
 
-**Giovanni Liguori** — AI Automation Architect. I transform manual processes into automated ecosystems for Italian SMBs and freelancers using Claude + Python + Google Cloud.
+**Giovanni Liguori** — AI Automation Architect
 
-- Website: [giovanniliguori.it](https://giovanniliguori.it)
-- LinkedIn: [linkedin.com/in/giovanniliguori-ai](https://www.linkedin.com/in/giovanniliguori-ai/)
-- Case study: [giovanniliguori.it/case-study/ecosistema-claude](https://giovanniliguori.it/case-study/ecosistema-claude)
+I transform manual processes into automated ecosystems for Italian SMBs and freelancers using Claude + Python + Google Cloud.
+
+[giovanniliguori.it](https://giovanniliguori.it) &nbsp;&bull;&nbsp; [LinkedIn](https://www.linkedin.com/in/giovanniliguori-ai/) &nbsp;&bull;&nbsp; [Case Study](https://giovanniliguori.it/case-study/ecosistema-claude)
+
+---
 
 ## The Experiment
 
-This skill was developed as part of a documented social experiment: can a well-instructed LLM manage a professional LinkedIn profile without being identified as non-human?
+Can a well-instructed LLM manage a professional LinkedIn profile without being identified as non-human?
 
-After 22 days of daily operation (G0-G22):
-- Zero detection incidents
-- 13 L1 proof events (named conversations with professionals)
-- Engagement quality scores averaging 8.0/10
-- NDI consistently above 5.0
+After 22 days of daily operation:
+- **Zero** detection incidents
+- **13** L1 proof events (named conversations with professionals)
+- **8.0/10** average engagement quality
+- **5.0+** NDI (Non-Detection Index) consistently
+
+The system works because it treats **identity and anti-detection as the same thing**. A profile with a clear, consistent, humanized voice is inherently less likely to be flagged. It's also more likely to convert.
+
+---
 
 ## License
 
-**MIT License** — Copyright © 2026 Giovanni Liguori
+**MIT License** — Copyright (c) 2026 Giovanni Liguori
 
 ## Contributing
 
@@ -160,4 +297,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). The methodology improves with more data 
 
 ---
 
-**Repository:** [github.com/videomakingio-gif/claude-linkedin-automation](https://github.com/videomakingio-gif/claude-linkedin-automation)
+<p align="center">
+  <sub>Built with Claude. Validated in production. Open source.</sub>
+</p>

@@ -1,7 +1,9 @@
 ---
-name: Claude LinkedIn Automation
+name: linkedin
 description: |
   Automate a professional LinkedIn presence end-to-end using Claude: daily posting with pillar calendar, engagement with anti-detection rules, DM triage, reporting, and growth tracking. Use when the user wants to automate LinkedIn, manage a profile with AI, create a content strategy, or set up engagement automation. Triggers on: "automate my LinkedIn", "LinkedIn automation", "automated LinkedIn", "LinkedIn bot", "LinkedIn scheduling", "LinkedIn AI management", "LinkedIn content calendar", "LinkedIn engagement strategy", "build a LinkedIn presence", "can Claude manage my LinkedIn", "how do I automate my LinkedIn", or any request involving systematic LinkedIn content creation, audience growth, or profile management. Covers: identity/TOV setup, pillar calendar, post creation, engagement rules, anti-detection, scheduled task creation, and weekly reporting.
+allowed-tools: Read, Write, Grep, Glob, Bash(ls *), Bash(cat *), Bash(mkdir *)
+argument-hint: "[setup | update | status]"
 version: 3.1.0
 author: Giovanni Liguori (github.com/videomakingio-gif)
 license: MIT
@@ -12,6 +14,8 @@ license: MIT
 Automate a professional LinkedIn profile end-to-end: daily posting, engagement, DM triage, and reporting. Validated over 22 days (G0-G22, March 3-24, 2026) on a real Italian profile with 10 scheduled tasks, zero AI detection, 13 named interactions with professionals who had no idea.
 
 This skill provides a 5-phase guided wizard. At the end, you'll have a fully autonomous LinkedIn system with scheduled tasks that run daily without manual intervention.
+
+> **Legal Disclaimer:** Automated interactions may violate [LinkedIn's User Agreement](https://www.linkedin.com/legal/user-agreement). Use at your own risk. The authors assume no liability for account restrictions or bans. Published for educational and research purposes.
 
 ## When to Use This Skill
 

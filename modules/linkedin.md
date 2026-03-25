@@ -1,5 +1,7 @@
 # LinkedIn Automation Module
 
+> **Note:** This file is a **reference implementation** based on the author's real profile (AI/B2B niche, Italian market). When you run the `/linkedin` wizard, Phase 1 generates a personalized `CLAUDE.md` identity document tailored to your profile. This module serves as an example of what a fully configured system looks like in production.
+
 **Domain:** Social Media Management
 **Tasks Covered:** 10 scheduled automations
 **Follower Range:** 0-1000+ (adaptive rules)
